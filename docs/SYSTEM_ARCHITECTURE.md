@@ -39,7 +39,9 @@ Design commitments:
 |---|---|---|---|
 | Own Instagram performance (reach, views, saves, shares, comments, watch time, skip rate, profile visits, follows) | ✅ High | Instagram Graph API (official), own Business/Creator account | Story insights only while story is live (24h) → daily job required; 200 calls/hr/user; some metrics renamed/deprecated in 2025 (plays/impressions → views) |
 | Own Instagram comments | ✅ High | Graph API comments edge | Only own media |
-| Competitor IG content | ⚠️ Partial | Business Discovery API (public business/creator accounts: caption, like/comment counts, timestamp, permalink) | No views/saves/shares for others; hashtag search capped at 30 unique hashtags / 7 days |
+| Instagram category intelligence (what everyone posts about Istanbul/Turkey travel) | ⚠️ Partial → good with layering | Hashtag Search API + Business Discovery API (official, automated) + weekly supervised Claude-in-Chrome market scan | APIs give captions + like/comment counts only (no views/saves; 30 hashtags/7 days); keyword search & visible view counts only via browser, low volume, small account-risk |
+| Browser-assisted research (Reddit interim, Trends CSVs, IG keyword search) | ✅ supervised | Claude in Chrome on your computer, or local Claude Code with `--chrome`; results saved to Inbox endpoint | Not available from cloud sessions; human-started, low volume, not unattended on third-party platforms |
+| ManyChat flow building | ✅ via browser | Claude in Chrome builds flows in ManyChat's editor from approved specs, left unpublished for your test + publish | UI changes can break the workflow; never auto-publish |
 | Reddit posts/comments | ⚠️ Gated | Reddit Data API **after approval**; commercial use needs an agreement | Self-serve keys closed; approval 2–4 weeks; Reddit actively litigating scrapers → **no scraping** |
 | YouTube videos + comments | ✅ High | YouTube Data API v3 (free, 10,000 units/day) | `search.list` = 100 units; `commentThreads.list` = 1 unit → curate channels/videos, search sparingly |
 | Tripadvisor / Rick Steves / Facebook groups | ⚠️ Manual only | Evidence Inbox (human capture) | No APIs; ToS prohibit scraping |
@@ -68,7 +70,8 @@ Design commitments:
 | Storing evidence, content memory, metrics, learnings | **Postgres + pgvector** (Supabase) + **object storage** (raw snapshots, media) |
 | Rendering carousels/PDFs | **Playwright + HTML templates** (Python job) |
 | Video processing | **ffmpeg** + transcription (Whisper-class model) + Claude vision on keyframes; render via Remotion or export timeline |
-| Building ManyChat flows | **Human in ManyChat UI**, from Claude-generated specs |
+| Building ManyChat flows | **Claude in Chrome** in ManyChat's editor from approved specs (draft/unpublished); **you test and publish** |
+| Browser research sessions (IG keyword search, Reddit interim, Trends CSVs) | **Claude in Chrome** / local Claude Code `--chrome`, started by you; output to the Inbox endpoint |
 | Publishing to Instagram | **Human** |
 | Approving recommendations/content/funnels | **Brit / Berat** |
 
@@ -203,6 +206,6 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
 | External listening is the core intelligence source | It tells you what the *market* asks. **Your inquiries, DMs, and the questions guests ask on tours** tell you what *buyers* ask. Add a "Field Intelligence" capture channel for Brit, Berat, and guides |
 | Weekly "what is rising/falling" | Valid only after baselines exist; early reports must say so |
 | System should produce near-finished Reels | Highest ROI is **shot lists + B-roll retrieval + script/timing + timeline export**; humans finish in CapCut. Revisit auto-rendering after Phase 6 |
-| Claude can build ManyChat funnels | Claude can **design** them precisely; ManyChat's API cannot create flows. Humans build; the system instruments and measures |
+| Claude can build ManyChat funnels | Yes, through **Claude in Chrome** in ManyChat's editor (the API cannot create flows). Claude designs the spec, builds it as a draft; you test and publish |
 | Revenue learning will emerge from content data | Only if bookings capture source. Decide the booking attribution process now |
 | Many agents collaborating | One orchestrated pipeline with ~12 narrow LLM roles and one independent critic is more reliable, cheaper, and debuggable |

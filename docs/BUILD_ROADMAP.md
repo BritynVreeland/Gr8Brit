@@ -15,7 +15,7 @@ collaboration with fast feedback from you; they are estimates, not promises.
 - **Exit**: `bbos doctor` passes (DB, API keys, storage); a raw document can be inserted and read back.
 
 ## Phase 1 — MVP: Evidence → Intelligence → Recommendations (≈2–3 weeks)
-See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox, YouTube collector, extraction with
+See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox (+ endpoint for browser sessions), Instagram market intelligence (Hashtag Search, Business Discovery, weekly Claude-in-Chrome scan), Reddit browser research sessions, YouTube collector, extraction with
 verified quotes, clustering, opportunities, concepts, scoring v1, critic, ~10 recommendations, weekly
 report with evidence drill-down, decision capture.
 - **Exit**: two consecutive weekly cycles where you rate ≥6/10 recommendations "would make", 100% quote
@@ -34,8 +34,7 @@ report with evidence drill-down, decision capture.
   "what we learned" section with honest confidence labels.
 
 ## Phase 3 — Wider listening & market intelligence (≈2–3 weeks)
-- Reddit collector (if approved), GSC + GA4, DataForSEO keyword universe, Trends CSV/alpha, competitor
-  IG (Business Discovery) + YouTube market index, review sources, context feeds (advisories, FX, holidays).
+- Reddit API collector (if approved), GSC + GA4, DataForSEO keyword universe, Trends (browser-downloaded CSVs or alpha API), YouTube market index, review sources, context feeds (advisories, FX, holidays).
 - Trend analyst with baselines; market coverage & gap analysis ("what competitors are missing").
 - Weekly report reaches full target structure.
 - **Exit**: report includes rising/falling with stated baseline length; competitor gap section backed by indexed content.
@@ -45,7 +44,7 @@ report with evidence drill-down, decision capture.
 - Campaign Architect: insight → angle → Reel → carousel → stories → resource → ManyChat → email → offer, with
   each asset's role/objective.
 - ManyChat flow spec generator (Markdown + JSON) incl. segmentation questions, consent copy, event hooks;
-  you build in ManyChat. Writer role for scripts/captions/carousel copy, always critic-reviewed.
+  Claude in Chrome builds the flow as a draft in ManyChat; you test and publish. Writer role for scripts/captions/carousel copy, always critic-reviewed.
 - **Exit**: one full campaign shipped end-to-end with attribution from keyword to email capture (and booking if any).
 
 ## Phase 5 — Design system & templated creative (≈2–4 weeks)

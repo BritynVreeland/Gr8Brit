@@ -6,6 +6,11 @@ Preference order for every source: **official API → authenticated integration/
 licensed third-party API → manual export → manual capture → (only with explicit approval and ToS
 permission) browser automation.** We do not scrape against terms of service.
 
+**Browser-assisted tier (added 2026-10-06):** Claude in Chrome / Claude Code's Chrome integration can
+operate *your own logged-in browser* in **supervised, low-volume, human-started sessions** that save
+what they find to the Evidence Inbox. This is a research assistant, not a scraper: no headless bots,
+no bulk crawling, no unattended schedules on third-party platforms. See §2.10–2.11.
+
 ## 1. Source matrix
 
 | # | Source | Value | Method | Compliance | Reliability | Phase |
@@ -17,10 +22,10 @@ permission) browser automation.** We do not scrape against terms of service.
 | 5 | **Customer inquiry emails** (Gmail) | ★★★★★ highest purchase intent | Gmail API (OAuth, read-only scope, label-filtered) | ✅ Own data; PII minimization | High | Phase 2 (MVP: paste examples into Inbox) |
 | 6 | **Google Search Console** | ★★★★ what people search to find us | GSC API (official) | ✅ | High | Phase 3 |
 | 7 | **GA4** | ★★★ traffic & conversions | GA4 Data API (official) | ✅ | High | Phase 3 |
-| 8 | **Reddit** (r/istanbul, r/travel, r/Turkey, r/solotravel, r/TravelNoPics, r/onebag…) | ★★★★★ candid American planning talk | Reddit Data API **after approval**; commercial use → agreement | ⚠️ Apply now; no scraping; honor deletions | High once approved | Apply now; build Phase 3 |
+| 8 | **Reddit** (r/istanbul, r/travel, r/Turkey, r/solotravel, r/TravelNoPics, r/onebag…) | ★★★★★ candid American planning talk | Reddit Data API **after approval**; commercial use → agreement. Until then: supervised Claude-in-Chrome research sessions (reads threads you'd read, saves quotes to the Inbox) | ⚠️ Apply now; no bulk scraping; honor deletions | High once approved | Browser sessions MVP; API Phase 3 |
 | 9 | **Keyword demand** | ★★★ absolute search volume & seasonality | DataForSEO (Google Ads keyword data; pay-as-you-go) or Google Ads Keyword Planner | ✅ licensed data | High | Phase 3 |
-| 10 | **Google Trends** | ★★ relative interest, seasonality | Apply for official Trends API alpha; meanwhile monthly manual CSV export | ✅ | Medium (sparse for niche terms) | Phase 3 |
-| 11 | **Competitor/creator Instagram** | ★★★ market saturation & formats | Business Discovery API (public business/creator accounts: captions, like/comment counts) + limited hashtag search (30/7 days) | ✅ official | Medium | Phase 3 |
+| 10 | **Google Trends** | ★★ relative interest, seasonality | Apply for official Trends API alpha; meanwhile monthly CSV export — done by Claude in Chrome in a supervised session | ✅ / ⚠️ low-volume | Medium (sparse for niche terms) | Phase 3 |
+| 11 | **Instagram market intelligence** (what *everyone* posts about Istanbul / Turkey travel: top Reels, formats, hooks, creators, saturation) | ★★★★★ market saturation, winning formats, gaps | Three layers: (a) official Hashtag Search API (top/recent media for ≤30 hashtags/week), (b) Business Discovery API on a creator watchlist, (c) supervised Claude-in-Chrome "market scan" sessions for keyword search & visible view counts | ✅ (a)(b) official · ⚠️ (c) low-volume supervised browsing, see §2.10 | Medium | **MVP** (pulled forward) |
 | 12 | **Competitor YouTube** | ★★★ | YouTube Data API | ✅ | High | Phase 3 |
 | 13 | **Reviews** (our Google reviews, Tripadvisor reviews) | ★★★★ what delighted/annoyed buyers | Google Business Profile API (own); Tripadvisor manual export/capture | ✅ | Medium | Phase 3 |
 | 14 | **Context feeds** (US State Dept Türkiye advisory, IST airport news, lira exchange rate, Turkish holidays/Ramadan dates, major events) | ★★★ explains spikes in fear/interest | Public pages/RSS, free FX API, static calendars | ✅ | High | Phase 3 |
@@ -120,14 +125,79 @@ The single most important "integration" for compliant breadth.
   timeline export via OpenTimelineIO → CapCut/DaVinci/Premiere for finishing.
 - Raw video stays in Google Drive (connected); we index by Drive file ID.
 
+### 2.10 Instagram market intelligence (Istanbul / Turkey travel category)
+
+Goal: know what the whole category is posting — which topics, hooks, formats and creators win, what
+is saturated, and what is missing — so our recommendations avoid crowded angles and borrow proven formats.
+
+**Layer A — Hashtag Search API (official, automated, weekly).** Requires the Instagram API *with
+Facebook Login* (our IG account linked to a Facebook Page) and the hashtag-search permission (verify
+whether app review is needed for our own-account use at setup). Budget: 30 unique hashtags per rolling
+7 days, e.g. #istanbul #istanbultravel #istanbulguide #visitistanbul #turkeytravel #traveltürkiye
+#istanbultips #istanbulfood #grandbazaar #cappadocia (adjacent) … Returns top & recent media with
+caption, media type, like count, comment count, permalink, timestamp. **Does not return views, saves,
+shares, or (reliably) the author.** Captions → hook/topic/angle extraction; permalinks feed Layer C.
+
+**Layer B — Business Discovery API (official, automated, weekly).** A watchlist of ~30–60 Istanbul /
+Turkey travel creators and competitors (seeded by you + discovered via Layers A/C). Per account:
+followers, media count, recent posts with captions, like/comment counts. Lets us compute each
+creator's *relative* winners (post vs. their own median) — the best proxy for "what's working".
+
+**Layer C — Claude in Chrome market scan (supervised, ~30–45 min/week).** What the APIs can't give:
+Instagram *keyword* search results ("Istanbul travel", "Istanbul tips", "Turkey travel", "Istanbul
+airport"…), Reels tab ordering, **visible view counts on Reels grids**, audio used, on-screen hook
+text, cover style. You start the session from a saved shortcut; Claude browses like a researcher
+would, records structured observations (permalink, creator, format, hook, visible views/likes, topic,
+angle, what's distinctive) and saves them to the Inbox as `market_content` with
+`capture_method = browser_assisted`. You watch or spot-check.
+
+*Risk, stated plainly:* Meta's terms prohibit collecting data by automated means without permission.
+A slow, supervised session viewing a few dozen posts looks like normal browsing and is low risk, but
+it is not zero, and the account at risk is **your main acquisition channel**. Rules: low volume,
+human-started, no bulk scrolling/downloading, no running unattended on a schedule, stop at any
+warning/CAPTCHA. The alternative is a paid social-listening tool with licensed Instagram data — worth
+pricing if this becomes core.
+
+**Outputs:** `market_content` rows (with embeddings) → market coverage per cluster, "saturated vs.
+underserved" in scoring factor **G**, a format/hook library ("myth-bust POV reels on mosques: 9 of the
+top 30; nobody covers the IST arrival flow from an American POV"), and the report section
+"Content market observations / What competitors are missing".
+
+### 2.11 Browser-assisted workflows (Claude in Chrome) — where they fit
+
+**How it works:** Claude in Chrome (Pro/Max/Team/Enterprise) drives *your* Chrome with your logins;
+it has per-site permissions, pauses at logins/CAPTCHAs, and supports saved shortcuts and scheduled
+tasks. Claude Code can also drive Chrome, but **only from a local session on your computer**
+(`claude --chrome`, or `@browser` in VS Code) — not from cloud sessions like this one. The Claude
+desktop app (Cowork) hosts it too.
+
+**The integration pattern:** a browser session finds and reads; it saves structured results through
+our **Inbox endpoint** (a small authenticated web form / Supabase function), or a local Claude Code
+session calls `bbos inbox add`. Then the normal pipeline takes over (extraction, verified quotes, clustering).
+
+| Workflow | Browser role | Verdict | Guardrails |
+|---|---|---|---|
+| **ManyChat flow building** | Claude builds the flow in ManyChat's editor from our approved flow spec: keyword trigger, messages, buttons, questions, custom-field writes, tags, External Request events | ✅ **Recommended** (Phase 4). Your own account; fills the gap that ManyChat's API cannot create flows | Built as **unpublished/draft** (or with a test keyword); you test on a test IG account; **you** publish (gate G4). Screenshot of the final flow saved with the spec |
+| **ManyChat data pull** | Export subscriber/flow stats from the dashboard when the API lacks them | ✅ OK | Read-only; PII rules apply |
+| **Instagram market scan** | §2.10 Layer C | ⚠️ Low-volume, supervised only | As above |
+| **Reddit research sessions** | Search target subreddits, open relevant threads, save verbatim quotes + URLs to the Inbox | ⚠️ Interim until API approval. Reddit's terms restrict automated collection; a supervised session reading ~20–40 threads is research-scale, not scraping | Human-started, ≤1 session/week, no bulk crawling, no scheduling; switch to the API when approved |
+| **Google Trends** | Enter ~20 terms (US geo), download CSVs, save to Inbox | ✅ Low risk (replaces the manual export) | Monthly, supervised |
+| **Tripadvisor / Rick Steves / FB groups** | Read threads you point it to; save quotes | ⚠️ Same as Reddit | Manual-scale only; anonymize FB group content |
+| **Meta Business Suite exports** | Download CSV exports when the API is unavailable | ✅ | — |
+
+**What browser automation is *not* for:** anything unattended and recurring on Instagram, Reddit, or
+Tripadvisor; publishing posts; sending DMs; anything a reliable API already does. Browser UIs change, so
+these workflows are allowed to break without breaking the pipeline: the pipeline only reads what reached the Inbox.
+
 ## 3. Build order (first integrations)
 
 1. **Instagram own account** (API, with CSV backfill fallback) — the foundation of content memory.
-2. **Evidence Inbox** — unlocks Reddit/forums/DMs/emails/field notes compliantly on day one.
-3. **YouTube Data API** — the one automated external listener for MVP.
-4. **ManyChat webhook events + subscriber fields** — per-post lead attribution (Phase 2).
-5. **Gmail inquiries + booking system source capture** — purchase intent and revenue (Phase 2).
-6. **GSC + GA4** (Phase 3). 7. **Reddit API** (when approved). 8. **DataForSEO/Trends**. 9. **Competitor IG**.
+2. **Evidence Inbox + Inbox endpoint** — unlocks Reddit/forums/DMs/emails/field notes and browser-assisted sessions.
+3. **Instagram market intelligence** — Hashtag Search + Business Discovery (automated) + weekly supervised Claude-in-Chrome market scan.
+4. **YouTube Data API** — automated external listener.
+5. **ManyChat webhook events + subscriber fields** — per-post lead attribution (Phase 2); Claude-in-Chrome flow building (Phase 4).
+6. **Gmail inquiries + booking system source capture** — purchase intent and revenue (Phase 2).
+7. **GSC + GA4** (Phase 3). 8. **Reddit API** (when approved; browser research sessions until then). 9. **DataForSEO/Trends**.
 
 ## 4. Credentials & accounts needed (eventually)
 
@@ -136,7 +206,9 @@ The single most important "integration" for compliant breadth.
 | Anthropic API key (org account with billing) | all LLM stages | MVP |
 | Supabase project (you own it; invite me via service key in secrets) | DB, storage, webhooks | MVP |
 | Voyage AI API key (or approve local embeddings) | embeddings | MVP |
-| Meta developer app + Instagram Business/Creator account access (or a Meta Business Suite CSV export of last 12–24 months) | IG sync | MVP |
+| Meta developer app + Instagram Business/Creator account access (or a Meta Business Suite CSV export of last 12–24 months); IG account linked to a Facebook Page (needed for Hashtag Search / Business Discovery) | IG sync + market intel | MVP |
+| Claude Pro/Max/Team plan with Claude in Chrome installed on your computer | browser-assisted sessions | MVP |
+| Watchlist of Istanbul/Turkey travel creators & competitors you follow | IG market intel | MVP |
 | Google Cloud project + YouTube Data API key | YouTube | MVP |
 | GitHub Actions secrets access (repo admin) | scheduler | MVP |
 | ManyChat Pro API key + list of current flows/keywords | funnels | Phase 2 |

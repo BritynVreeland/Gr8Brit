@@ -71,7 +71,7 @@ comment thread, an IG comment, an email question, a pasted forum thread, a tour 
 | `content_hash text` | sha256 of body_text (dedupe + tamper evidence) |
 | `engagement jsonb` | upvotes, likes, reply count, view count at fetch time |
 | `language text` | |
-| `capture_method enum` | api, manual_paste, manual_url, export_file, webhook |
+| `capture_method enum` | api, manual_paste, manual_url, export_file, webhook, browser_assisted |
 | `captured_by text` | for manual items: brit / berat / guide / claude-assisted |
 | `deleted_at_source bool`, `purge_after date` | compliance |
 | `relevance jsonb` | output of the relevance filter: `{is_relevant, us_likelihood, us_cues[], confidence}` |
@@ -127,7 +127,7 @@ New clusters can *propose* taxonomy nodes; a human approves additions.
 
 **market_content** — public content by other creators/competitors (Business Discovery, YouTube):
 `platform`, `account_handle`, `external_id`, `url`, `published_at`, `caption_or_title`, `format`,
-`public_metrics jsonb` (likes, comments, views where public), `topic_node_ids`, `angle_summary`,
+`public_metrics jsonb` (likes, comments, views where public), `hook_text`, `audio`, `relative_performance` (vs. the creator's own median), `discovered_via` (hashtag, watchlist, keyword_search), `capture_method`, `topic_node_ids`, `angle_summary`,
 `embedding vector`.
 **market_coverage** — per cluster per period: how many/how well competitors address it:
 `cluster_id`, `period`, `matching_content_count`, `best_answer_quality smallint (1–5)`, `gap_notes`.
