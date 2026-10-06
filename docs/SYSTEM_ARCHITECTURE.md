@@ -40,12 +40,12 @@ Design commitments:
 | Own Instagram performance (reach, views, saves, shares, comments, watch time, skip rate, profile visits, follows) | ✅ High | Instagram Graph API (official), own Business/Creator account | Story insights only while story is live (24h) → daily job required; 200 calls/hr/user; some metrics renamed/deprecated in 2025 (plays/impressions → views) |
 | Own Instagram comments | ✅ High | Graph API comments edge | Only own media |
 | Instagram category intelligence (what everyone posts about Istanbul/Turkey travel) | ⚠️ Partial → good with layering | Hashtag Search API + Business Discovery API (official, automated) + weekly supervised Claude-in-Chrome market scan | APIs give captions + like/comment counts only (no views/saves; 30 hashtags/7 days); keyword search & visible view counts only via browser, low volume, small account-risk |
-| Browser-assisted research (Facebook groups, Trends CSVs, IG keyword search) | ✅ supervised | Claude in Chrome on your computer, or local Claude Code with `--chrome`; results saved to Inbox endpoint | Not available from cloud sessions; human-started, low volume, not unattended on third-party platforms |
+| Browser-assisted research (Trends CSVs, IG keyword search) | ✅ supervised | Claude in Chrome on your computer, or local Claude Code with `--chrome`; results saved to Inbox endpoint | Not available from cloud sessions; human-started, low volume, not unattended on third-party platforms |
 | ManyChat flow building | ✅ via browser | Claude in Chrome builds flows in ManyChat's editor from approved specs, left unpublished for your test + publish | UI changes can break the workflow; never auto-publish |
-| Facebook groups & public threads | ⚠️ Browser only | Supervised Claude-in-Chrome sessions in groups you belong to → Inbox | Groups API removed April 2024; Meta Content Library is academic-only; low volume, anonymized, small account risk |
+| Facebook | — Dropped | Out of scope by decision | — |
 | Reddit | — Dropped | Out of scope by decision | — |
 | YouTube videos + comments | ✅ High | YouTube Data API v3 (free, 10,000 units/day) | `search.list` = 100 units; `commentThreads.list` = 1 unit → curate channels/videos, search sparingly |
-| Tripadvisor / Rick Steves / Facebook groups | ⚠️ Manual only | Evidence Inbox (human capture) | No APIs; ToS prohibit scraping |
+| Tripadvisor / Rick Steves forums | ⚠️ Manual only | Evidence Inbox (human capture) | No APIs; ToS prohibit scraping |
 | Google Trends | ⚠️ Gated | Official Trends API is application-only alpha; meanwhile manual CSV export | Niche queries are sparse/noisy; relative not absolute |
 | Search demand (keyword volume) | ✅ | DataForSEO (Google Ads keyword data, pay-per-use) or Google Ads Keyword Planner | Monthly granularity; costs small |
 | Our website search queries | ✅ High | Google Search Console API (16 months) | Needs site verified in GSC |
@@ -72,7 +72,7 @@ Design commitments:
 | Rendering carousels/PDFs | **Playwright + HTML templates** (Python job) |
 | Video processing | **ffmpeg** + transcription (Whisper-class model) + Claude vision on keyframes; render via Remotion or export timeline |
 | Building ManyChat flows | **Claude in Chrome** in ManyChat's editor from approved specs (draft/unpublished); **you test and publish** |
-| Browser research sessions (IG keyword search, Facebook groups, Trends CSVs) | **Claude in Chrome** / local Claude Code `--chrome`, started by you; output to the Inbox endpoint |
+| Browser research sessions (IG keyword search, Trends CSVs) | **Claude in Chrome** / local Claude Code `--chrome`, started by you; output to the Inbox endpoint |
 | Publishing to Instagram | **Human** |
 | Approving recommendations/content/funnels | **Brit / Berat** |
 
@@ -106,7 +106,7 @@ These are conveniences on top of the same deterministic pipeline, not a separate
 bbos/
   collectors/        # one module per source; pure I/O, no LLM. Write raw_documents.
     instagram.py  youtube.py  manual_inbox.py  manychat_webhook (edge fn)  gsc.py  ga4.py
-    facebook_groups (browser→inbox)  dataforseo.py  trends_csv.py  gmail_inquiries.py  competitors_ig.py
+    dataforseo.py  trends_csv.py  gmail_inquiries.py  competitors_ig.py
   extract/           # LLM: raw_document → evidence_items (signals) with verbatim quotes + annotations
   understand/        # embeddings, clustering, cluster labeling, trend/velocity math, taxonomy mapping
   market/            # competitor/market content index, coverage & gap analysis
@@ -137,7 +137,7 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
 | Daily 06:00 TRT | IG sync (media, insights, stories before expiry, comments); ManyChat subscriber field sync |
 | Continuous | ManyChat External Request events → webhook → `attribution_events` |
 | Weekly (Sun) | YouTube pull, GSC/GA4 pull, competitor IG pull, keyword volumes (monthly) |
-| Weekly (you start) | Claude-in-Chrome sessions: IG market scan, Facebook group research |
+| Weekly (you start) | Claude-in-Chrome sessions: IG market scan |
 | Weekly (Mon) | Extract → embed → cluster/assign → trend math → opportunities → concepts → score → critique → select → report |
 | Weekly (Mon) | Brit reviews ~10 recommendations: approve / reject / modify + reason (captured) |
 | Continuous | Evidence Inbox: Brit/Berat/guides capture threads, DMs, tour questions anytime |
@@ -171,7 +171,7 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
    engagement → leads but not → revenue. This needs a process change, not just code.
 6. **ManyChat is a closed box for flow authoring** and has no transcript export. We instrument flows
    with External Request events and custom fields from the start.
-7. **Facebook and Instagram category data are mostly browser-only.** No API covers Facebook groups or Instagram keyword search, so those sessions are supervised, low-volume, and depend on Meta's UI.
+7. **Instagram category data is partly browser-only.** No API covers Instagram keyword search or other accounts' view counts, so those sessions are supervised, low-volume, and depend on Meta's UI.
 8. **Google Trends is gated.** We apply for the alpha but do not depend on it.
 9. **Platform APIs change.** Meta deprecated and renamed key metrics in 2025. Collectors isolate
    metric mapping in one place and store raw API payloads so history survives renames.
@@ -192,7 +192,7 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
   Email capture in ManyChat must include clear consent language. Data retention policy: raw public
   documents 24 months; deleted-at-source content purged where the source's terms require.
 - **Platform terms**: use each platform's data only as its terms allow (Meta Platform Terms, YouTube API
-  Services Terms, Facebook group rules). No scraping against ToS. No buying scraped data.
+  Services Terms). No scraping against ToS. No buying scraped data.
 - **Public use of audience words**: internal analysis may quote verbatim; public content paraphrases
   unless permission is obtained.
 - **Prompt injection**: user-generated text is wrapped as data; extraction calls have no tools and use

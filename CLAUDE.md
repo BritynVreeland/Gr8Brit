@@ -79,8 +79,7 @@ until the American-and-local dual perspective is load-bearing.
 ## Important constraints
 
 - **Reddit**: out of scope (Brit's decision, 2026-10-06). Do not collect Reddit data.
-- **Facebook**: no API for groups/public search. Supervised Claude-in-Chrome sessions in groups Brit
-  belongs to; anonymize authors; respect group rules; never quote members publicly.
+- **Facebook**: out of scope (Brit's decision, 2026-10-06). Do not collect Facebook data.
 - **Tripadvisor**: no API; ToS prohibit scraping → manual capture only.
 - **Instagram**: official Graph API for our own account. Competitor data limited to Business
   Discovery (public like/comment counts). Story insights disappear after 24h → collect daily.
@@ -88,10 +87,11 @@ until the American-and-local dual perspective is load-bearing.
   specs and may build them via Claude in Chrome as drafts; a human tests and publishes. Events reach
   us via ManyChat "External Request" actions.
 - **Browser-assisted sessions** (Claude in Chrome / local `claude --chrome`): human-started, supervised,
-  low volume, results saved to the Evidence Inbox. Never unattended/recurring on Instagram, Facebook or
+  low volume, results saved to the Evidence Inbox. Never unattended/recurring on Instagram or
   Tripadvisor; never publish or DM. Not available from cloud sessions.
 - **Instagram market intelligence**: Hashtag Search + Business Discovery APIs (automated) + weekly
-  supervised browser market scan. Protect the business account: stop at any warning/CAPTCHA.
+  supervised browser market scan. Run browser scans from a separate personal Instagram account Brit owns, not the business account;
+  stop at any warning/CAPTCHA.
 - **Cloud sessions are ephemeral.** State lives in the hosted database and object storage, never only
   on local disk. Commit code; never commit data or secrets.
 - **Secrets** live in environment variables / GitHub Actions secrets / Supabase Vault. Never in the

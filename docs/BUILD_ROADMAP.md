@@ -15,7 +15,7 @@ collaboration with fast feedback from you; they are estimates, not promises.
 - **Exit**: `bbos doctor` passes (DB, API keys, storage); a raw document can be inserted and read back.
 
 ## Phase 1 — MVP: Evidence → Intelligence → Recommendations (≈2–3 weeks)
-See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox (+ endpoint for browser sessions), Instagram market intelligence (Hashtag Search, Business Discovery, weekly Claude-in-Chrome scan), Facebook group research sessions, YouTube collector, extraction with
+See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox (+ endpoint for browser sessions), Instagram market intelligence (Hashtag Search, Business Discovery, weekly Claude-in-Chrome scan), YouTube collector, extraction with
 verified quotes, clustering, opportunities, concepts, scoring v1, critic, ~10 recommendations, weekly
 report with evidence drill-down, decision capture.
 - **Exit**: two consecutive weekly cycles where you rate ≥6/10 recommendations "would make", 100% quote
@@ -91,7 +91,7 @@ report with evidence drill-down, decision capture.
 - [ ] ManyChat plan level + API key (Phase 2); list of current keywords/flows
 - [ ] Booking system name + export/API access; email platform name + API key
 - [ ] Gmail label strategy for inquiries (Phase 2)
-- [ ] List of Facebook groups you belong to that we should research (and any whose rules forbid it)
+- [ ] A separate personal Instagram account for browser market scans
 
 **Data & exports**
 - [ ] Instagram content history (if API not ready): captions, dates, metrics
@@ -99,7 +99,7 @@ report with evidence drill-down, decision capture.
 - [ ] 20–50 anonymized customer inquiries / DMs (MVP Evidence Inbox seed)
 - [ ] Your top 10 and bottom 10 posts with your explanation of why
 - [ ] List of competitors/creators you watch (IG, YouTube)
-- [ ] Facebook/forum threads you already know are gold (URLs)
+- [ ] Forum/YouTube threads you already know are gold (URLs)
 
 **Business knowledge**
 - [ ] Offer details: descriptions, prices, margins, capacity, seasonality, which you most want to grow

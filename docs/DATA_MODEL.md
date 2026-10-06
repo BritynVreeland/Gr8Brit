@@ -47,7 +47,7 @@ Types abbreviated. All tables have `id uuid pk`, `created_at timestamptz` unless
 ### 3.1 Collection & raw evidence
 
 **sources** — a data source definition.
-`key text unique` (e.g. `youtube`, `facebook_groups`, `ig_market`, `ig_own`, `manual_inbox`, `gmail_inquiries`, `field_notes`),
+`key text unique` (e.g. `youtube`, `ig_market`, `ig_own`, `manual_inbox`, `gmail_inquiries`, `field_notes`),
 `name`, `access_method enum(official_api, mcp, authenticated_integration, third_party_api, manual_export, manual_capture, webhook)`,
 `terms_basis text` (which ToS/permission allows this use), `retention_days int`, `is_first_party bool`, `active bool`.
 
@@ -55,7 +55,7 @@ Types abbreviated. All tables have `id uuid pk`, `created_at timestamptz` unless
 `source_id`, `started_at`, `finished_at`, `status`, `params jsonb` (queries, channel ids, date ranges),
 `items_fetched int`, `error text`, `pipeline_run_id`.
 
-**raw_documents** — immutable snapshot of one retrieved unit (a Facebook group post, a comment, a YouTube
+**raw_documents** — immutable snapshot of one retrieved unit (an Instagram comment, a forum post, a YouTube
 comment thread, an IG comment, an email question, a pasted forum thread, a tour field note).
 | column | notes |
 |---|---|

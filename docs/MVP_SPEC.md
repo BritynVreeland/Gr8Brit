@@ -23,9 +23,9 @@ fully traceable to source.** Small enough to build in ~2–3 weeks; real enough 
 |---|---|
 | **DB** | Supabase Postgres + pgvector; tables: sources, collection_runs, raw_documents, evidence_items, evidence_embeddings, audience_phrases, taxonomy_nodes, clusters, cluster_members, cluster_snapshots, offers, facts_registry, brand_rules, opportunities (+links), concepts, concept_scores, critiques, recommendations, decisions, assets, asset_metric_snapshots, asset_comments, pipeline_runs, llm_calls, reports |
 | **Collector: Instagram own** | One-time backfill (last 12–24 months: media, captions, insights, comments) via Graph API; **CSV import fallback** if the API setup is delayed. Weekly refresh |
-| **Collector: Evidence Inbox** | CLI + Claude Code skill to add pasted text / URL+text / files with `captured_by` and note. Seed corpus: ~150–300 items gathered in a "research sprint" (Facebook group threads, forum threads, YouTube comments, our IG comments, anonymized inquiries/DMs, Berat's tour questions) |
+| **Collector: Evidence Inbox** | CLI + Claude Code skill to add pasted text / URL+text / files with `captured_by` and note. Seed corpus: ~150–300 items gathered in a "research sprint" (forum threads, YouTube comments, our IG comments, anonymized inquiries/DMs, Berat's tour questions) |
 | **Instagram market intelligence** | Hashtag Search API (≤30 hashtags/week) + Business Discovery on a 30–60 creator watchlist (automated weekly) + one supervised Claude-in-Chrome "market scan" per week (keyword search, visible Reel views, hooks, formats) saved via the Inbox endpoint → `market_content`. Feeds the Gap factor and the "content market observations / what competitors are missing" report sections |
-| **Browser-assisted research sessions** | Saved Claude-in-Chrome shortcuts for (a) IG market scan, (b) Facebook group research (see INTEGRATIONS §2.11), run by you weekly, low volume, results posted to the Inbox endpoint |
+| **Browser-assisted research sessions** | A saved Claude-in-Chrome shortcut for the IG market scan, run by you weekly from a separate personal IG account, low volume, results posted to the Inbox endpoint |
 | **Collector: YouTube** | Curated list of ~20–40 Istanbul travel videos/channels + ≤10 searches/week; comments → raw docs, videos → market_content |
 | **Relevance + Extraction** | Batch API; structured outputs; **code-verified verbatim quotes**; US-likelihood with cues |
 | **Understanding** | Voyage embeddings; HDBSCAN clustering; LLM cluster labels (canonical question, summary, misconceptions); simple weekly snapshots (no trend claims yet — "baseline building") |
@@ -45,7 +45,7 @@ fully traceable to source.** Small enough to build in ~2–3 weeks; real enough 
 3. What they're worried about / what they want / misconceptions
 4. High-purchase-intent questions
 5. What our content history suggests (with sample sizes and confidence labels; "insufficient data" where true)
-6. Content market observations from Instagram + YouTube; what Facebook travel groups are asking (what the Istanbul/Turkey category posts, winning formats/hooks, saturated vs. missing topics)
+6. Content market observations from Instagram + YouTube (what the Istanbul/Turkey category posts, winning formats/hooks, saturated vs. missing topics)
 7. Top ~10 recommendations (full cards as in SCORING_MODEL §5)
 8. Resource opportunities (flagged, not built)
 9. Proposed hypotheses (≤3) to test
@@ -77,7 +77,7 @@ writing · Streamlit UI · auto-publishing (never).
 | 1 | Scaffold, Supabase, migrations, LLM wrapper, configs (offers, taxonomy v1, brand voice, banned phrases) |
 | 2 | Evidence Inbox + raw document model + quote verification utility (with tests) |
 | 3 | IG backfill (API or CSV) → assets + metric snapshots + comments as raw docs |
-| 4 | YouTube collector + IG Hashtag Search / Business Discovery collectors + Inbox endpoint + Claude-in-Chrome shortcuts (IG market scan, Facebook group research) |
+| 4 | YouTube collector + IG Hashtag Search / Business Discovery collectors + Inbox endpoint + Claude-in-Chrome shortcuts (IG market scan) |
 | 5 | Relevance + extraction (batch) + extraction eval on ~50 hand-labeled docs |
 | 6 | Embeddings + clustering + cluster analyst |
 | 7 | Legacy content auto-labeling + performance table |
@@ -95,5 +95,5 @@ with your confirmation) capture the seed corpus into the Evidence Inbox.
 3. Choose the Instagram path for MVP: API setup now, or CSV export first.
 4. Confirm you'll own the accounts (Supabase, Anthropic, Google Cloud, Meta app) and share credentials via secrets.
 5. Weekly production capacity and desired objective mix (default: 3 reach · 2 trust · 2 lead · 1 conversion · 1 experiment · 1 story).
-6. Which Facebook groups to research (you must be a member), excluding any whose rules forbid it.
-7. OK with the stated risk of supervised Claude-in-Chrome sessions on Instagram/Facebook (low volume, human-started), or prefer API-only + a paid listening tool.
+6. Set up a separate personal Instagram account for the weekly browser market scan.
+7. OK with the stated risk of supervised Claude-in-Chrome sessions on Instagram (low volume, human-started), or prefer API-only + a paid listening tool.
