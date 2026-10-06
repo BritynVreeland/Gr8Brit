@@ -39,8 +39,8 @@ Design commitments:
 |---|---|---|---|
 | Own Instagram performance (reach, views, saves, shares, comments, watch time, skip rate, profile visits, follows) | ✅ High | Instagram Graph API (official), own Business/Creator account | Story insights only while story is live (24h) → daily job required; 200 calls/hr/user; some metrics renamed/deprecated in 2025 (plays/impressions → views) |
 | Own Instagram comments | ✅ High | Graph API comments edge | Only own media |
-| Instagram category intelligence (what everyone posts about Istanbul/Turkey travel) | ⚠️ Partial → good with layering | Hashtag Search API + Business Discovery API (official, automated) + weekly supervised Claude-in-Chrome market scan | APIs give captions + like/comment counts only (no views/saves; 30 hashtags/7 days); keyword search & visible view counts only via browser, low volume, small account-risk |
-| Browser-assisted research (Trends CSVs, IG keyword search) | ✅ supervised | Claude in Chrome on your computer, or local Claude Code with `--chrome`; results saved to Inbox endpoint | Not available from cloud sessions; human-started, low volume, not unattended on third-party platforms |
+| Instagram category intelligence (what everyone posts about Istanbul/Turkey travel) | ✅ Good with layering | Hashtag Search API + Business Discovery API (official, automated) + Brit's swipe file + YouTube view counts | Instagram APIs give captions + like/comment counts only (no views/saves for others; 30 hashtags/7 days). No browser automation by decision |
+| Browser-assisted tasks (Trends CSVs) | ✅ supervised | Claude in Chrome on your computer, or local Claude Code with `--chrome`; results saved to Inbox endpoint | Not available from cloud sessions; human-started, low volume, not unattended on third-party platforms |
 | ManyChat flow building | ✅ via browser | Claude in Chrome builds flows in ManyChat's editor from approved specs, left unpublished for your test + publish | UI changes can break the workflow; never auto-publish |
 | Facebook | — Dropped | Out of scope by decision | — |
 | Reddit | — Dropped | Out of scope by decision | — |
@@ -72,7 +72,7 @@ Design commitments:
 | Rendering carousels/PDFs | **Playwright + HTML templates** (Python job) |
 | Video processing | **ffmpeg** + transcription (Whisper-class model) + Claude vision on keyframes; render via Remotion or export timeline |
 | Building ManyChat flows | **Claude in Chrome** in ManyChat's editor from approved specs (draft/unpublished); **you test and publish** |
-| Browser research sessions (IG keyword search, Trends CSVs) | **Claude in Chrome** / local Claude Code `--chrome`, started by you; output to the Inbox endpoint |
+| Browser research sessions (Trends CSVs) | **Claude in Chrome** / local Claude Code `--chrome`, started by you; output to the Inbox endpoint |
 | Publishing to Instagram | **Human** |
 | Approving recommendations/content/funnels | **Brit / Berat** |
 
@@ -137,7 +137,7 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
 | Daily 06:00 TRT | IG sync (media, insights, stories before expiry, comments); ManyChat subscriber field sync |
 | Continuous | ManyChat External Request events → webhook → `attribution_events` |
 | Weekly (Sun) | YouTube pull, GSC/GA4 pull, competitor IG pull, keyword volumes (monthly) |
-| Weekly (you start) | Claude-in-Chrome sessions: IG market scan |
+| Weekly (you) | Add standout posts to the swipe file (~10 min) |
 | Weekly (Mon) | Extract → embed → cluster/assign → trend math → opportunities → concepts → score → critique → select → report |
 | Weekly (Mon) | Brit reviews ~10 recommendations: approve / reject / modify + reason (captured) |
 | Continuous | Evidence Inbox: Brit/Berat/guides capture threads, DMs, tour questions anytime |
@@ -171,7 +171,7 @@ same `pipeline_run_id`, and can be re-run idempotently. A `bbos cycle weekly` co
    engagement → leads but not → revenue. This needs a process change, not just code.
 6. **ManyChat is a closed box for flow authoring** and has no transcript export. We instrument flows
    with External Request events and custom fields from the start.
-7. **Instagram category data is partly browser-only.** No API covers Instagram keyword search or other accounts' view counts, so those sessions are supervised, low-volume, and depend on Meta's UI.
+7. **Other creators' Instagram views/saves are not available officially.** We measure the market with like/comment counts relative to each creator's own median, YouTube view counts, and the swipe file — and rely on our own full metrics for what works for us.
 8. **Google Trends is gated.** We apply for the alpha but do not depend on it.
 9. **Platform APIs change.** Meta deprecated and renamed key metrics in 2025. Collectors isolate
    metric mapping in one place and store raw API payloads so history survives renames.

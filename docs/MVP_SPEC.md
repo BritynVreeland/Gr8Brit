@@ -24,8 +24,7 @@ fully traceable to source.** Small enough to build in ~2–3 weeks; real enough 
 | **DB** | Supabase Postgres + pgvector; tables: sources, collection_runs, raw_documents, evidence_items, evidence_embeddings, audience_phrases, taxonomy_nodes, clusters, cluster_members, cluster_snapshots, offers, facts_registry, brand_rules, opportunities (+links), concepts, concept_scores, critiques, recommendations, decisions, assets, asset_metric_snapshots, asset_comments, pipeline_runs, llm_calls, reports |
 | **Collector: Instagram own** | One-time backfill (last 12–24 months: media, captions, insights, comments) via Graph API; **CSV import fallback** if the API setup is delayed. Weekly refresh |
 | **Collector: Evidence Inbox** | CLI + Claude Code skill to add pasted text / URL+text / files with `captured_by` and note. Seed corpus: ~150–300 items gathered in a "research sprint" (forum threads, YouTube comments, our IG comments, anonymized inquiries/DMs, Berat's tour questions) |
-| **Instagram market intelligence** | Hashtag Search API (≤30 hashtags/week) + Business Discovery on a 30–60 creator watchlist (automated weekly) + one supervised Claude-in-Chrome "market scan" per week (keyword search, visible Reel views, hooks, formats) saved via the Inbox endpoint → `market_content`. Feeds the Gap factor and the "content market observations / what competitors are missing" report sections |
-| **Browser-assisted research sessions** | A saved Claude-in-Chrome shortcut for the IG market scan, run by you weekly from a separate personal IG account, low volume, results posted to the Inbox endpoint |
+| **Instagram market intelligence** | Hashtag Search API (≤30 hashtags/week) + Business Discovery on a 30–60 creator watchlist (automated weekly) + Brit's swipe file (standout post links + why) resolved via official APIs + YouTube view counts → `market_content`. Feeds the Gap factor, the format/hook library, and the "content market observations / what competitors are missing" report sections. No browser automation |
 | **Collector: YouTube** | Curated list of ~20–40 Istanbul travel videos/channels + ≤10 searches/week; comments → raw docs, videos → market_content |
 | **Relevance + Extraction** | Batch API; structured outputs; **code-verified verbatim quotes**; US-likelihood with cues |
 | **Understanding** | Voyage embeddings; HDBSCAN clustering; LLM cluster labels (canonical question, summary, misconceptions); simple weekly snapshots (no trend claims yet — "baseline building") |
@@ -77,7 +76,7 @@ writing · Streamlit UI · auto-publishing (never).
 | 1 | Scaffold, Supabase, migrations, LLM wrapper, configs (offers, taxonomy v1, brand voice, banned phrases) |
 | 2 | Evidence Inbox + raw document model + quote verification utility (with tests) |
 | 3 | IG backfill (API or CSV) → assets + metric snapshots + comments as raw docs |
-| 4 | YouTube collector + IG Hashtag Search / Business Discovery collectors + Inbox endpoint + Claude-in-Chrome shortcuts (IG market scan) |
+| 4 | YouTube collector + IG Hashtag Search / Business Discovery collectors + swipe-file intake |
 | 5 | Relevance + extraction (batch) + extraction eval on ~50 hand-labeled docs |
 | 6 | Embeddings + clustering + cluster analyst |
 | 7 | Legacy content auto-labeling + performance table |
@@ -95,5 +94,4 @@ with your confirmation) capture the seed corpus into the Evidence Inbox.
 3. Choose the Instagram path for MVP: API setup now, or CSV export first.
 4. Confirm you'll own the accounts (Supabase, Anthropic, Google Cloud, Meta app) and share credentials via secrets.
 5. Weekly production capacity and desired objective mix (default: 3 reach · 2 trust · 2 lead · 1 conversion · 1 experiment · 1 story).
-6. Set up a separate personal Instagram account for the weekly browser market scan.
-7. OK with the stated risk of supervised Claude-in-Chrome sessions on Instagram (low volume, human-started), or prefer API-only + a paid listening tool.
+6. Creator/competitor watchlist (30–60 accounts) and a first batch of 20–30 swipe-file posts you think are great, each with one line on why.

@@ -24,7 +24,7 @@ no bulk crawling, no unattended schedules on third-party platforms. See §2.10�
 | 7 | **GA4** | ★★★ traffic & conversions | GA4 Data API (official) | ✅ | High | Phase 3 |
 | 9 | **Keyword demand** | ★★★ absolute search volume & seasonality | DataForSEO (Google Ads keyword data; pay-as-you-go) or Google Ads Keyword Planner | ✅ licensed data | High | Phase 3 |
 | 10 | **Google Trends** | ★★ relative interest, seasonality | Apply for official Trends API alpha; meanwhile monthly CSV export — done by Claude in Chrome in a supervised session | ✅ / ⚠️ low-volume | Medium (sparse for niche terms) | Phase 3 |
-| 11 | **Instagram market intelligence** (what *everyone* posts about Istanbul / Turkey travel: top Reels, formats, hooks, creators, saturation) | ★★★★★ market saturation, winning formats, gaps | Three layers: (a) official Hashtag Search API (top/recent media for ≤30 hashtags/week), (b) Business Discovery API on a creator watchlist, (c) supervised Claude-in-Chrome "market scan" sessions for keyword search & visible view counts | ✅ (a)(b) official · ⚠️ (c) low-volume supervised browsing, see §2.10 | Medium | **MVP** (pulled forward) |
+| 11 | **Instagram market intelligence** (what *everyone* posts about Istanbul / Turkey travel: top Reels, formats, hooks, creators, saturation) | ★★★★★ market saturation, winning formats, gaps | Three layers: (a) official Hashtag Search API (top/recent media for ≤30 hashtags/week), (b) Business Discovery API on a creator watchlist, (c) Brit's swipe file of standout posts, resolved via official APIs; plus YouTube view counts | ✅ All official | Medium | **MVP** (pulled forward) |
 | 12 | **Competitor YouTube** | ★★★ | YouTube Data API | ✅ | High | Phase 3 |
 | 13 | **Reviews** (our Google reviews, Tripadvisor reviews) | ★★★★ what delighted/annoyed buyers | Google Business Profile API (own); Tripadvisor manual export/capture | ✅ | Medium | Phase 3 |
 | 14 | **Context feeds** (US State Dept Türkiye advisory, IST airport news, lira exchange rate, Turkish holidays/Ramadan dates, major events) | ★★★ explains spikes in fear/interest | Public pages/RSS, free FX API, static calendars | ✅ | High | Phase 3 |
@@ -128,30 +128,25 @@ whether app review is needed for our own-account use at setup). Budget: 30 uniqu
 7 days, e.g. #istanbul #istanbultravel #istanbulguide #visitistanbul #turkeytravel #traveltürkiye
 #istanbultips #istanbulfood #grandbazaar #cappadocia (adjacent) … Returns top & recent media with
 caption, media type, like count, comment count, permalink, timestamp. **Does not return views, saves,
-shares, or (reliably) the author.** Captions → hook/topic/angle extraction; permalinks feed Layer C.
+shares, or (reliably) the author.** Captions → hook/topic/angle extraction.
 
 **Layer B — Business Discovery API (official, automated, weekly).** A watchlist of ~30–60 Istanbul /
 Turkey travel creators and competitors (seeded by you + discovered via Layers A/C). Per account:
 followers, media count, recent posts with captions, like/comment counts. Lets us compute each
 creator's *relative* winners (post vs. their own median) — the best proxy for "what's working".
 
-**Layer C — Claude in Chrome market scan (supervised, ~30–45 min/week).** What the APIs can't give:
-Instagram *keyword* search results ("Istanbul travel", "Istanbul tips", "Turkey travel", "Istanbul
-airport"…), Reels tab ordering, **visible view counts on Reels grids**, audio used, on-screen hook
-text, cover style. You start the session from a saved shortcut; Claude browses like a researcher
-would, records structured observations (permalink, creator, format, hook, visible views/likes, topic,
-angle, what's distinctive) and saves them to the Inbox as `market_content` with
-`capture_method = browser_assisted`. You watch or spot-check.
+**Layer C — Swipe file (human-curated, official, ~10 min/week).** Brit (and Berat) save standout
+Istanbul/Turkey Reels and carousels they come across while using Instagram normally, and paste the link
+into the Inbox with one line on *why* it's good ("hook in first second", "everyone in comments asked
+about X"). The system resolves each link to its creator and pulls like/comment counts and caption via
+Business Discovery / oEmbed (official). Taste-curated examples are often more useful than bulk rankings.
 
-*Risk, stated plainly:* Meta's terms prohibit collecting data by automated means without permission.
-**Mitigation: run scans from a separate personal Instagram account Brit owns (Instagram allows multiple
-accounts per person), never from the Brit & Berat business account**, so the worst case can't touch
-the acquisition channel.
-A slow, supervised session viewing a few dozen posts looks like normal browsing and is low risk, but
-it is not zero, and the account at risk is **your main acquisition channel**. Rules: low volume,
-human-started, no bulk scrolling/downloading, no running unattended on a schedule, stop at any
-warning/CAPTCHA. The alternative is a paid social-listening tool with licensed Instagram data — worth
-pricing if this becomes core.
+**Also used for market performance:** YouTube Data API returns public **view counts** for competitor
+and creator videos (official) — our best cross-creator measure of which Istanbul topics draw attention.
+
+**Decided 2026-10-06: no browser automation on Instagram.** No keyword-search scraping and no view-count
+collection via Claude in Chrome. Revisit only if, after 6 weeks of cycles, the market-observations
+section is demonstrably too thin to guide recommendations — and then prefer a licensed listening tool.
 
 **Outputs:** `market_content` rows (with embeddings) → market coverage per cluster, "saturated vs.
 underserved" in scoring factor **G**, a format/hook library ("myth-bust POV reels on mosques: 9 of the
@@ -177,7 +172,6 @@ session calls `bbos inbox add`. Then the normal pipeline takes over (extraction,
 |---|---|---|---|
 | **ManyChat flow building** | Claude builds the flow in ManyChat's editor from our approved flow spec: keyword trigger, messages, buttons, questions, custom-field writes, tags, External Request events | ✅ **Recommended** (Phase 4). Your own account; fills the gap that ManyChat's API cannot create flows | Built as **unpublished/draft** (or with a test keyword); you test on a test IG account; **you** publish (gate G4). Screenshot of the final flow saved with the spec |
 | **ManyChat data pull** | Export subscriber/flow stats from the dashboard when the API lacks them | ✅ OK | Read-only; PII rules apply |
-| **Instagram market scan** | §2.10 Layer C | ⚠️ Low-volume, supervised only | As above |
 | **Google Trends** | Enter ~20 terms (US geo), download CSVs, save to Inbox | ✅ Low risk (replaces the manual export) | Monthly, supervised |
 | **Tripadvisor / Rick Steves forums** | Read threads you point it to; save quotes | ⚠️ Low-volume, supervised | Manual-scale only |
 | **Meta Business Suite exports** | Download CSV exports when the API is unavailable | ✅ | — |
@@ -190,7 +184,7 @@ these workflows are allowed to break without breaking the pipeline: the pipeline
 
 1. **Instagram own account** (API, with CSV backfill fallback) — the foundation of content memory.
 2. **Evidence Inbox + Inbox endpoint** — unlocks forums/DMs/emails/field notes and browser-assisted sessions.
-3. **Instagram market intelligence** — Hashtag Search + Business Discovery (automated) + weekly supervised Claude-in-Chrome market scan.
+3. **Instagram market intelligence** — Hashtag Search + Business Discovery (automated) + swipe file. No browser automation on Instagram.
 4. **YouTube Data API** — automated external listener.
 5. **ManyChat webhook events + subscriber fields** — per-post lead attribution (Phase 2); Claude-in-Chrome flow building (Phase 4).
 6. **Gmail inquiries + booking system source capture** — purchase intent and revenue (Phase 2).
@@ -204,7 +198,7 @@ these workflows are allowed to break without breaking the pipeline: the pipeline
 | Supabase project (you own it; invite me via service key in secrets) | DB, storage, webhooks | MVP |
 | Voyage AI API key (or approve local embeddings) | embeddings | MVP |
 | Meta developer app + Instagram Business/Creator account access (or a Meta Business Suite CSV export of last 12–24 months); IG account linked to a Facebook Page (needed for Hashtag Search / Business Discovery) | IG sync + market intel | MVP |
-| Claude Pro/Max/Team plan with Claude in Chrome installed on your computer | browser-assisted sessions | MVP |
+| Claude Pro/Max/Team plan with Claude in Chrome installed on your computer | ManyChat flow building, Trends CSVs | Phase 3–4 |
 | Watchlist of Istanbul/Turkey travel creators & competitors you follow | IG market intel | MVP |
 | Google Cloud project + YouTube Data API key | YouTube | MVP |
 | GitHub Actions secrets access (repo admin) | scheduler | MVP |
