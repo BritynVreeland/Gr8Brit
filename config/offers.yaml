@@ -1,4 +1,7 @@
-# Canonical offer catalog. TODO(Brit): descriptions, price ranges, booking URLs.
+# Canonical offer catalog. Source of truth: https://britandberat.com
+# TODO: sync names, descriptions, prices and booking URLs from the website once it is readable
+# (britandberat.com must be on the environment's allowed domains).
+website: https://britandberat.com
 offers:
   - key: old_city_tour
     name: Old City Tour

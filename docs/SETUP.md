@@ -15,7 +15,7 @@ Use exactly the variable names shown below.
 
 The cloud environment currently blocks the APIs we need. In the environment's settings → **Network
 access** → Custom, add these allowed domains and keep the default package-manager list:
-`graph.facebook.com`, `*.supabase.co`, `supabase.com`, `api.voyageai.com`, `www.googleapis.com`,
+`britandberat.com` (so Claude can read your site for tone, offers and pricing), `graph.facebook.com`, `*.supabase.co`, `supabase.com`, `api.voyageai.com`, `www.googleapis.com`,
 `youtube.googleapis.com`, `api.stripe.com`, `*.api-us1.com` (ActiveCampaign).
 Docs: https://code.claude.com/docs/en/cloud-environments#network-access
 

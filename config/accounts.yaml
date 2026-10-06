@@ -2,7 +2,7 @@
 accounts:
   - key: brit_in_istanbul
     name: Brit in Istanbul
-    handle: null            # TODO(Brit): Instagram handle
+    handle: britinist
     role: personal_brand
     primary_objectives: [education, trust, lead, storytelling, reach]
     weekly_feed_target: 6   # 5–7 ideal
@@ -13,7 +13,7 @@ accounts:
       brit_and_berat, so it also appears on the company feed. Educates, builds trust, captures leads.
   - key: brit_and_berat
     name: Brit & Berat
-    handle: null            # TODO(Brit): Instagram handle
+    handle: britandberat
     role: company
     primary_objectives: [conversion, proof, offer_education]
     weekly_feed_target: 3   # unique posts (in addition to Collabs from brit_in_istanbul)

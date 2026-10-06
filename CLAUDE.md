@@ -32,6 +32,8 @@ Core loop: **LISTEN → UNDERSTAND → IDENTIFY OPPORTUNITIES → STRATEGIZE →
   Brit in Istanbul posts are published by Brit's account with Brit & Berat as collaborator (one media
   object, owned by Brit in Istanbul, shown on both feeds — store once, never double-count).
   Mix of Reels and carousels on both.
+- **Handles / site**: Brit in Istanbul = `@britinist`; Brit & Berat = `@britandberat`; website
+  https://britandberat.com (source of truth for tone, offers, pricing).
 - **Revenue stack**: bookings via **Stripe** Checkout on the website (built with **Lovable**);
   email marketing in **ActiveCampaign**.
 
