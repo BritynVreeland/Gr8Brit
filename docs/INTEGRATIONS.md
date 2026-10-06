@@ -9,20 +9,20 @@ permission) browser automation.** We do not scrape against terms of service.
 **Browser-assisted tier (added 2026-10-06):** Claude in Chrome / Claude Code's Chrome integration can
 operate *your own logged-in browser* in **supervised, low-volume, human-started sessions** that save
 what they find to the Evidence Inbox. This is a research assistant, not a scraper: no headless bots,
-no bulk crawling, no unattended schedules on third-party platforms. See §2.10–2.11.
+no bulk crawling, no unattended schedules on third-party platforms. See §2.10–2.12.
 
 ## 1. Source matrix
 
 | # | Source | Value | Method | Compliance | Reliability | Phase |
 |---|---|---|---|---|---|---|
 | 1 | **Our Instagram** (media, insights, comments, stories) | ★★★★★ content memory + audience questions | Instagram Graph API (official) via a Meta app linked to our Business/Creator account | ✅ Own data | High (watch token expiry, metric renames) | MVP (CSV export fallback) |
-| 2 | **Evidence Inbox** (manual capture: Reddit threads, Tripadvisor/Rick Steves forums, FB groups, DMs, WhatsApp inquiries, tour field notes) | ★★★★★ broad + first-party | CLI/Claude Code skill, later a browser bookmarklet & simple form; paste text/URL/file | ✅ Human captures for internal research; no automated scraping | High | MVP |
+| 2 | **Evidence Inbox** (manual capture: Facebook group threads, Tripadvisor/Rick Steves forums, DMs, WhatsApp inquiries, tour field notes) | ★★★★★ broad + first-party | CLI/Claude Code skill, later a browser bookmarklet & simple form; paste text/URL/file | ✅ Human captures for internal research; no automated scraping | High | MVP |
 | 3 | **YouTube** (Istanbul travel videos + comments) | ★★★★ large volume of American traveler questions in comments | YouTube Data API v3 (official; 10k units/day free) | ✅ YouTube API Services Terms | High | MVP |
 | 4 | **ManyChat** (keyword triggers, segmentation answers, email captures, resource deliveries) | ★★★★★ leads attribution | External Request actions in flows → our webhook; ManyChat API (Pro) for subscriber fields/tags | ✅ Own data | Medium-High | Phase 2 |
 | 5 | **Customer inquiry emails** (Gmail) | ★★★★★ highest purchase intent | Gmail API (OAuth, read-only scope, label-filtered) | ✅ Own data; PII minimization | High | Phase 2 (MVP: paste examples into Inbox) |
 | 6 | **Google Search Console** | ★★★★ what people search to find us | GSC API (official) | ✅ | High | Phase 3 |
 | 7 | **GA4** | ★★★ traffic & conversions | GA4 Data API (official) | ✅ | High | Phase 3 |
-| 8 | **Reddit** (r/istanbul, r/travel, r/Turkey, r/solotravel, r/TravelNoPics, r/onebag…) | ★★★★★ candid American planning talk | Reddit Data API **after approval**; commercial use → agreement. Until then: supervised Claude-in-Chrome research sessions (reads threads you'd read, saves quotes to the Inbox) | ⚠️ Apply now; no bulk scraping; honor deletions | High once approved | Browser sessions MVP; API Phase 3 |
+| 8 | **Facebook** (travel-planning groups for Istanbul/Turkey, American expat & traveler groups, public Page comment threads of travel creators/media) | ★★★★★ candid American planning questions, often with trip details | **No API exists** for group content (Groups API removed April 2024; Meta Content Library is academic/nonprofit-only) → supervised Claude-in-Chrome research sessions in groups you belong to, saving anonymized quotes to the Inbox | ⚠️ Low-volume, supervised; respect group rules; anonymize; never quote publicly | Medium | **MVP** |
 | 9 | **Keyword demand** | ★★★ absolute search volume & seasonality | DataForSEO (Google Ads keyword data; pay-as-you-go) or Google Ads Keyword Planner | ✅ licensed data | High | Phase 3 |
 | 10 | **Google Trends** | ★★ relative interest, seasonality | Apply for official Trends API alpha; meanwhile monthly CSV export — done by Claude in Chrome in a supervised session | ✅ / ⚠️ low-volume | Medium (sparse for niche terms) | Phase 3 |
 | 11 | **Instagram market intelligence** (what *everyone* posts about Istanbul / Turkey travel: top Reels, formats, hooks, creators, saturation) | ★★★★★ market saturation, winning formats, gaps | Three layers: (a) official Hashtag Search API (top/recent media for ≤30 hashtags/week), (b) Business Discovery API on a creator watchlist, (c) supervised Claude-in-Chrome "market scan" sessions for keyword search & visible view counts | ✅ (a)(b) official · ⚠️ (c) low-volume supervised browsing, see §2.10 | Medium | **MVP** (pulled forward) |
@@ -31,7 +31,6 @@ no bulk crawling, no unattended schedules on third-party platforms. See §2.10�
 | 14 | **Context feeds** (US State Dept Türkiye advisory, IST airport news, lira exchange rate, Turkish holidays/Ramadan dates, major events) | ★★★ explains spikes in fear/interest | Public pages/RSS, free FX API, static calendars | ✅ | High | Phase 3 |
 | 15 | **Booking system / payments** | ★★★★★ revenue attribution | Depends on your tool (FareHarbor/Bókun/Stripe/WooCommerce/manual?) — API or export | ✅ Own data | TBD | Phase 2–3 |
 | 16 | **TikTok** | ★★ | Research API is academic-only → manual capture only | ⚠️ | — | Manual only |
-| 17 | **Facebook groups** | ★★★ | No API for group content → manual capture, anonymized | ⚠️ Respect group rules/privacy | — | Manual only |
 
 ## 2. Details per integration
 
@@ -94,14 +93,8 @@ The single most important "integration" for compliant breadth.
 - Pre-processing strips names/emails/phones; extraction captures questions, trip context, objections.
 - Phase 2. For MVP, paste 20–50 representative (anonymized) inquiries into the Inbox.
 
-### 2.6 Reddit
-- **Action now**: register a Reddit app and submit a Data API access request describing low-volume,
-  read-only research of public travel subreddits for audience understanding (no AI training, no
-  redistribution). Expect 2–4 weeks; commercial terms may apply.
-- If approved: OAuth client, pull recent posts/comments from target subreddits + keyword searches;
-  honor deletions (purge job); respect rate limits.
-- If denied/too costly: continue with Evidence Inbox for Reddit, and consider a reputable licensed data
-  provider only after reviewing its legal basis (Reddit is litigating against scraping intermediaries).
+### 2.6 Reddit — dropped
+Removed from scope by Brit on 2026-10-06. No Reddit collection of any kind (API or browser).
 
 ### 2.7 Search demand: GSC, DataForSEO, Trends
 - GSC API: queries, pages, impressions, clicks, CTR, position (16 months) — what Americans type when
@@ -163,7 +156,37 @@ underserved" in scoring factor **G**, a format/hook library ("myth-bust POV reel
 top 30; nobody covers the IST arrival flow from an American POV"), and the report section
 "Content market observations / What competitors are missing".
 
-### 2.11 Browser-assisted workflows (Claude in Chrome) — where they fit
+### 2.11 Facebook (groups + public threads)
+
+**Why it matters:** Facebook travel groups ("Istanbul travel tips", "Turkey travel planning", American
+expat/traveler groups, women's travel groups) are where many Americans — often older, higher-budget,
+family and first-time international travelers — ask detailed planning questions with real trip context
+(dates, party, budget, worries). Very close to our buyers.
+
+**Access reality (researched):** Meta removed the Groups API in April 2024; public-post keyword search
+was removed from the Graph API long ago; Meta Content Library is limited to academic/nonprofit
+researchers. Pages API only covers Pages we manage. → **There is no compliant automated route.**
+
+**Method: supervised Claude-in-Chrome research sessions** (1–2/week, ~20–40 threads each):
+1. You start a saved shortcut on your computer, logged into your own Facebook account.
+2. Claude searches within the groups you've listed (and Facebook search for public posts) with a
+   rotating query set: "Istanbul" + airport / scam / safe / taxi / itinerary / Grand Bazaar / Asian side /
+   private tour / guide / first time / with kids / Hagia Sophia / Ramadan / transfer…
+3. For each relevant post: permalink, group name, post date, post text, top comments, reaction/comment
+   counts, poster cues relevant to US-likelihood (e.g. "flying from Atlanta"). **No names or profile
+   links are stored**; author fields are hashed.
+4. Results go to the Inbox endpoint as `raw_documents` (`source = facebook_groups`,
+   `capture_method = browser_assisted`), then the normal pipeline extracts signals with verified quotes.
+
+**Rules:** respect each group's rules (some forbid commercial use or research — exclude those groups);
+never post, comment, DM, or join groups automatically; never quote a group member publicly (paraphrase
+in content); stop at any warning/CAPTCHA; nothing unattended. Same account-risk caveat as Instagram:
+Meta's terms restrict automated collection, so volume stays at human-research scale.
+
+**Bonus first-party channel:** questions that people ask *you* in Facebook comments/Messenger, and
+posts where members recommend tour companies (who gets recommended, and why), are captured too.
+
+### 2.12 Browser-assisted workflows (Claude in Chrome) — where they fit
 
 **How it works:** Claude in Chrome (Pro/Max/Team/Enterprise) drives *your* Chrome with your logins;
 it has per-site permissions, pauses at logins/CAPTCHAs, and supports saved shortcuts and scheduled
@@ -180,24 +203,25 @@ session calls `bbos inbox add`. Then the normal pipeline takes over (extraction,
 | **ManyChat flow building** | Claude builds the flow in ManyChat's editor from our approved flow spec: keyword trigger, messages, buttons, questions, custom-field writes, tags, External Request events | ✅ **Recommended** (Phase 4). Your own account; fills the gap that ManyChat's API cannot create flows | Built as **unpublished/draft** (or with a test keyword); you test on a test IG account; **you** publish (gate G4). Screenshot of the final flow saved with the spec |
 | **ManyChat data pull** | Export subscriber/flow stats from the dashboard when the API lacks them | ✅ OK | Read-only; PII rules apply |
 | **Instagram market scan** | §2.10 Layer C | ⚠️ Low-volume, supervised only | As above |
-| **Reddit research sessions** | Search target subreddits, open relevant threads, save verbatim quotes + URLs to the Inbox | ⚠️ Interim until API approval. Reddit's terms restrict automated collection; a supervised session reading ~20–40 threads is research-scale, not scraping | Human-started, ≤1 session/week, no bulk crawling, no scheduling; switch to the API when approved |
+| **Facebook research sessions** | Search inside your groups + Facebook search for Istanbul/Turkey travel threads; open relevant posts and comment threads; save anonymized verbatim quotes + permalinks to the Inbox | ⚠️ Recommended but supervised (§2.11) | Human-started, ≤1–2 sessions/week, ~20–40 threads each, no bulk scrolling, no scheduling, stop at any warning/CAPTCHA |
 | **Google Trends** | Enter ~20 terms (US geo), download CSVs, save to Inbox | ✅ Low risk (replaces the manual export) | Monthly, supervised |
-| **Tripadvisor / Rick Steves / FB groups** | Read threads you point it to; save quotes | ⚠️ Same as Reddit | Manual-scale only; anonymize FB group content |
+| **Tripadvisor / Rick Steves forums** | Read threads you point it to; save quotes | ⚠️ Same as Facebook | Manual-scale only |
 | **Meta Business Suite exports** | Download CSV exports when the API is unavailable | ✅ | — |
 
-**What browser automation is *not* for:** anything unattended and recurring on Instagram, Reddit, or
+**What browser automation is *not* for:** anything unattended and recurring on Instagram, Facebook, or
 Tripadvisor; publishing posts; sending DMs; anything a reliable API already does. Browser UIs change, so
 these workflows are allowed to break without breaking the pipeline: the pipeline only reads what reached the Inbox.
 
 ## 3. Build order (first integrations)
 
 1. **Instagram own account** (API, with CSV backfill fallback) — the foundation of content memory.
-2. **Evidence Inbox + Inbox endpoint** — unlocks Reddit/forums/DMs/emails/field notes and browser-assisted sessions.
+2. **Evidence Inbox + Inbox endpoint** — unlocks Facebook groups/forums/DMs/emails/field notes and browser-assisted sessions.
 3. **Instagram market intelligence** — Hashtag Search + Business Discovery (automated) + weekly supervised Claude-in-Chrome market scan.
+3b. **Facebook research sessions** — weekly supervised Claude-in-Chrome sessions in travel groups (§2.11).
 4. **YouTube Data API** — automated external listener.
 5. **ManyChat webhook events + subscriber fields** — per-post lead attribution (Phase 2); Claude-in-Chrome flow building (Phase 4).
 6. **Gmail inquiries + booking system source capture** — purchase intent and revenue (Phase 2).
-7. **GSC + GA4** (Phase 3). 8. **Reddit API** (when approved; browser research sessions until then). 9. **DataForSEO/Trends**.
+7. **GSC + GA4** (Phase 3). 8. **DataForSEO/Trends**.
 
 ## 4. Credentials & accounts needed (eventually)
 
@@ -216,6 +240,6 @@ these workflows are allowed to break without breaking the pipeline: the pipeline
 | Booking system name + API/export access | revenue | Phase 2 |
 | Email platform (Klaviyo/Mailchimp/ConvertKit/…?) API key | email captures | Phase 2–4 |
 | Google Search Console + GA4 access (service account) | search/web | Phase 3 |
-| Reddit app credentials (after approval) | Reddit | Phase 3 |
+| List of Facebook groups you're a member of (and want monitored) + your OK to run supervised sessions on your Facebook account | Facebook research | MVP |
 | DataForSEO account ($50 deposit) | keyword volume | Phase 3 |
 | Google Drive folder of B-roll (shared to service account) | video | Phase 6 |

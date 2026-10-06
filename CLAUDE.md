@@ -78,16 +78,17 @@ until the American-and-local dual perspective is load-bearing.
 
 ## Important constraints
 
-- **Reddit**: Data API access requires approval; commercial use requires an agreement. Do not scrape
-  Reddit. Until approved, Reddit evidence enters via the manual Evidence Inbox.
-- **Tripadvisor / Facebook groups**: no API; ToS prohibit scraping → manual capture only.
+- **Reddit**: out of scope (Brit's decision, 2026-10-06). Do not collect Reddit data.
+- **Facebook**: no API for groups/public search. Supervised Claude-in-Chrome sessions in groups Brit
+  belongs to; anonymize authors; respect group rules; never quote members publicly.
+- **Tripadvisor**: no API; ToS prohibit scraping → manual capture only.
 - **Instagram**: official Graph API for our own account. Competitor data limited to Business
   Discovery (public like/comment counts). Story insights disappear after 24h → collect daily.
 - **ManyChat**: API cannot create/edit flows or export conversation transcripts. Claude designs flow
   specs and may build them via Claude in Chrome as drafts; a human tests and publishes. Events reach
   us via ManyChat "External Request" actions.
 - **Browser-assisted sessions** (Claude in Chrome / local `claude --chrome`): human-started, supervised,
-  low volume, results saved to the Evidence Inbox. Never unattended/recurring on Instagram, Reddit or
+  low volume, results saved to the Evidence Inbox. Never unattended/recurring on Instagram, Facebook or
   Tripadvisor; never publish or DM. Not available from cloud sessions.
 - **Instagram market intelligence**: Hashtag Search + Business Discovery APIs (automated) + weekly
   supervised browser market scan. Protect the business account: stop at any warning/CAPTCHA.

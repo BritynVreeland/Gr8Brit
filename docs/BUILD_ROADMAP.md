@@ -11,11 +11,11 @@ collaboration with fast feedback from you; they are estimates, not promises.
   core tables, LLM wrapper with cost logging, secrets setup, CI (lint + tests).
 - Seed configs: `offers.yaml`, `taxonomy.yaml`, `brand_voice.md`, `banned_phrases.yaml`, initial
   `facts_registry` (top ~30 facts used in your content).
-- File the **Reddit Data API** request and **Google Trends API alpha** application (long lead times).
+- File the **Google Trends API alpha** application (long lead time).
 - **Exit**: `bbos doctor` passes (DB, API keys, storage); a raw document can be inserted and read back.
 
 ## Phase 1 — MVP: Evidence → Intelligence → Recommendations (≈2–3 weeks)
-See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox (+ endpoint for browser sessions), Instagram market intelligence (Hashtag Search, Business Discovery, weekly Claude-in-Chrome scan), Reddit browser research sessions, YouTube collector, extraction with
+See `MVP_SPEC.md`. Instagram history backfill, Evidence Inbox (+ endpoint for browser sessions), Instagram market intelligence (Hashtag Search, Business Discovery, weekly Claude-in-Chrome scan), Facebook group research sessions, YouTube collector, extraction with
 verified quotes, clustering, opportunities, concepts, scoring v1, critic, ~10 recommendations, weekly
 report with evidence drill-down, decision capture.
 - **Exit**: two consecutive weekly cycles where you rate ≥6/10 recommendations "would make", 100% quote
@@ -34,7 +34,7 @@ report with evidence drill-down, decision capture.
   "what we learned" section with honest confidence labels.
 
 ## Phase 3 — Wider listening & market intelligence (≈2–3 weeks)
-- Reddit API collector (if approved), GSC + GA4, DataForSEO keyword universe, Trends (browser-downloaded CSVs or alpha API), YouTube market index, review sources, context feeds (advisories, FX, holidays).
+- GSC + GA4, DataForSEO keyword universe, Trends (browser-downloaded CSVs or alpha API), YouTube market index, review sources, context feeds (advisories, FX, holidays).
 - Trend analyst with baselines; market coverage & gap analysis ("what competitors are missing").
 - Weekly report reaches full target structure.
 - **Exit**: report includes rising/falling with stated baseline length; competitor gap section backed by indexed content.
@@ -74,7 +74,6 @@ report with evidence drill-down, decision capture.
 ## Dependencies & lead times to start now
 | Item | Lead time | Needed by |
 |---|---|---|
-| Reddit Data API approval | 2–4+ weeks | Phase 3 |
 | Google Trends API alpha | unknown / may not be granted | Phase 3 (CSV fallback) |
 | Meta developer app + IG token | 1–3 days | MVP |
 | Booking-source capture process decision | your call | Phase 2 |
@@ -92,7 +91,7 @@ report with evidence drill-down, decision capture.
 - [ ] ManyChat plan level + API key (Phase 2); list of current keywords/flows
 - [ ] Booking system name + export/API access; email platform name + API key
 - [ ] Gmail label strategy for inquiries (Phase 2)
-- [ ] Reddit account to own the API application (Phase 0)
+- [ ] List of Facebook groups you belong to that we should research (and any whose rules forbid it)
 
 **Data & exports**
 - [ ] Instagram content history (if API not ready): captions, dates, metrics
@@ -100,7 +99,7 @@ report with evidence drill-down, decision capture.
 - [ ] 20–50 anonymized customer inquiries / DMs (MVP Evidence Inbox seed)
 - [ ] Your top 10 and bottom 10 posts with your explanation of why
 - [ ] List of competitors/creators you watch (IG, YouTube)
-- [ ] Reddit/forum threads you already know are gold (URLs)
+- [ ] Facebook/forum threads you already know are gold (URLs)
 
 **Business knowledge**
 - [ ] Offer details: descriptions, prices, margins, capacity, seasonality, which you most want to grow
