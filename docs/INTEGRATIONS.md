@@ -28,12 +28,19 @@ no bulk crawling, no unattended schedules on third-party platforms. See §2.10�
 | 12 | **Competitor YouTube** | ★★★ | YouTube Data API | ✅ | High | Phase 3 |
 | 13 | **Reviews** (our Google reviews, Tripadvisor reviews) | ★★★★ what delighted/annoyed buyers | Google Business Profile API (own); Tripadvisor manual export/capture | ✅ | Medium | Phase 3 |
 | 14 | **Context feeds** (US State Dept Türkiye advisory, IST airport news, lira exchange rate, Turkish holidays/Ramadan dates, major events) | ★★★ explains spikes in fear/interest | Public pages/RSS, free FX API, static calendars | ✅ | High | Phase 3 |
-| 15 | **Booking system / payments** | ★★★★★ revenue attribution | Depends on your tool (FareHarbor/Bókun/Stripe/WooCommerce/manual?) — API or export | ✅ Own data | TBD | Phase 2–3 |
+| 15 | **Stripe** (bookings on the Lovable website) | ★★★★★ revenue attribution | Stripe API + webhooks (`checkout.session.completed`) → our DB; Checkout session metadata carries UTM / ManyChat subscriber ID / keyword; Checkout custom field "How did you hear about us?" | ✅ Own data; restricted read-only key | High | Phase 2 |
+| 15b | **ActiveCampaign** (email list) | ★★★★ lead → customer journey | ActiveCampaign API v3 (contacts, tags, custom fields, automations) + webhooks; ManyChat → ActiveCampaign via ManyChat's integration or our webhook | ✅ Own data | High | Phase 2 |
 | 16 | **TikTok** | ★★ | Research API is academic-only → manual capture only | ⚠️ | — | Manual only |
 
 ## 2. Details per integration
 
-### 2.1 Instagram Graph API (own account)
+### 2.1 Instagram Graph API (our two accounts)
+Both **Brit in Istanbul** and **Brit & Berat** must be Instagram Professional accounts (Creator or
+Business), each linked to a Facebook Page, and connected to one Meta app via **Facebook Login** (the
+Facebook-Login flavor is required for Hashtag Search and Business Discovery). Collab posts are owned
+by the posting account (Brit in Istanbul) — we read them there once and record Brit & Berat as
+collaborator; Meta's collaborative-media endpoints (2025–26) let the collaborator account list them too.
+
 - **Setup**: Instagram Business or Creator account; Meta developer app; use "Instagram API with
   Instagram Login" (or Facebook Login if the account is linked to a Facebook Page). For our own
   account, the app can stay in development mode with us as app roles — no public app review needed
@@ -91,6 +98,20 @@ The single most important "integration" for compliant breadth.
 - Read-only OAuth scope, restricted to a label (e.g. `Inquiries`) to avoid touching personal mail.
 - Pre-processing strips names/emails/phones; extraction captures questions, trip context, objections.
 - Phase 2. For MVP, paste 20–50 representative (anonymized) inquiries into the Inbox.
+
+### 2.5b Stripe + Lovable + ActiveCampaign (revenue attribution path)
+
+The chain we want to see: **post → ManyChat keyword → email (ActiveCampaign) → site visit → Stripe booking**.
+1. Every link we send (ManyChat DMs, bio link, ActiveCampaign emails) carries UTMs, and ManyChat
+   links also carry the subscriber ID, e.g. `?utm_source=instagram&utm_medium=dm&utm_campaign=ARRIVE&mc={{user id}}`.
+2. The Lovable site stores these on landing and passes them into the Stripe Checkout Session as
+   `metadata` (small Lovable change; we'll write the exact prompt/code for Lovable).
+3. Stripe Checkout adds a custom dropdown field "How did you hear about us?" (Instagram – Brit in
+   Istanbul / Instagram – Brit & Berat / Google / friend / other) as a backstop.
+4. A Stripe webhook (`checkout.session.completed`) → Supabase function → `bookings`.
+5. ActiveCampaign: contacts get tags for the ManyChat keyword/resource they came from; we read
+   tags/custom fields via API (we store contact IDs, not emails).
+Use a **restricted Stripe key** (read-only on Checkout Sessions/Charges) and a webhook signing secret.
 
 ### 2.6 Reddit — dropped
 Removed from scope by Brit on 2026-10-06. No Reddit collection of any kind (API or browser).

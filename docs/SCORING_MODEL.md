@@ -101,12 +101,20 @@ will better achieve <objective> for Americans planning Istanbul, given the evide
 more consistent at comparisons than at absolute scores. Final within-slot order = blend of concept
 value (60%) and pairwise win rate (40%) — tunable.
 
-### 2.5 Portfolio selection (~10 recommendations)
+### 2.5 Portfolio selection (per account, ~8–10 feed recommendations/week + story plans)
 
-Selection is a constrained optimization (greedy is fine at this size):
-- **Objective mix** (default per week, configurable): 3 reach/education · 2 trust/save ·
-  2 lead (resource/ManyChat) · 1 conversion/offer · 1 experiment · 1 storytelling/brand.
-  Not every piece sells (principle from your brief).
+Selection is a constrained optimization (greedy is fine at this size), run **per account** with
+account-specific objective mixes from `config/scoring.yaml`:
+
+| Account | Weekly feed slots | Default objective mix |
+|---|---|---|
+| **Brit in Istanbul** (personal brand, collab with Brit & Berat) | 5–7 (min 3) | 2 education/reach · 1–2 trust/save · 1–2 lead (ManyChat resource) · 1 storytelling/personal · 0–1 experiment |
+| **Brit & Berat** (company, unique posts only) | 3 | 1 conversion/offer · 1 proof (guest story, behind-the-scenes, review) · 1 offer-education ("what an Old City tour with us actually looks like", how booking works) |
+| **Stories** (both accounts, daily) | 7 + 7 | Lighter "story plan": daily prompts tied to the week's feed posts (polls, Q&A boxes that double as research, behind-the-scenes, offer reminders on Brit & Berat) — Phase 2 |
+
+A concept is assigned to one account. Sales content goes to Brit & Berat; education/lead content to
+Brit in Istanbul (which still reaches Brit & Berat's feed via Collab). Not every piece sells, even on
+the company account: "selling" there means proof, clarity, and desire, not hard pitches.
 - **Diversity**: ≤2 per cluster, ≤3 per taxonomy branch, ≥3 formats.
 - **Capacity**: total effort ≤ weekly production capacity (set by you).
 - **Explore/exploit**: ≥1 slot reserved for an experiment or under-tested topic, so we don't only

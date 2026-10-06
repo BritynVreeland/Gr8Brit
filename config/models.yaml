@@ -1,0 +1,19 @@
+# Model + effort per pipeline stage. Default per project: claude-opus-5-5.
+# Cheaper models for bulk stages only after an eval shows quality holds (see AGENT_ARCHITECTURE §7).
+default:
+  model: claude-opus-5-5
+  effort: medium
+stages:
+  relevance:        {effort: low,    batch: true}
+  extraction:       {effort: medium, batch: true}
+  cluster_analyst:  {effort: medium}
+  asset_labeler:    {effort: low,    batch: true}
+  strategist:       {effort: high}
+  concept_generator:{effort: high}
+  scorer_rubric:    {effort: medium}
+  critic:           {effort: high}
+  reporter:         {effort: medium}
+embeddings:
+  provider: voyage
+  model: voyage-3.5
+  dimensions: 1024

@@ -87,7 +87,11 @@ writing · Streamlit UI · auto-publishing (never).
 Parallel human task during steps 1–4: **research sprint** — you (and I, via Claude-assisted discovery
 with your confirmation) capture the seed corpus into the Evidence Inbox.
 
-## 7. Decisions I need from you to start
+## 7. Decisions (resolved 2026-10-06 unless noted)
+
+Resolved: architecture + MVP approved; Instagram via API; two accounts (Brit in Istanbul 5–7/week, Brit & Berat 3 unique/week, daily stories on both); Stripe + ActiveCampaign. Open: watchlist and swipe file (system will propose candidates).
+
+Original list:
 
 1. Approve the architecture (pipeline + Supabase + Python + Claude API) — or flag concerns.
 2. Approve the MVP scope above (especially: no ManyChat/video in MVP).

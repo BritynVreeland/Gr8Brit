@@ -44,6 +44,12 @@ facts_registry   offers   taxonomy_nodes   brand_rules                          
 
 Types abbreviated. All tables have `id uuid pk`, `created_at timestamptz` unless noted.
 
+### 3.0 Accounts
+
+**accounts** — our publishing accounts. `key` (`brit_in_istanbul`, `brit_and_berat`), `platform`,
+`handle`, `ig_user_id`, `role (personal_brand / company)`, `primary_objectives text[]`,
+`weekly_feed_target int`, `stories_per_week int`, `active`.
+
 ### 3.1 Collection & raw evidence
 
 **sources** — a data source definition.
@@ -71,7 +77,7 @@ comment thread, an IG comment, an email question, a pasted forum thread, a tour 
 | `content_hash text` | sha256 of body_text (dedupe + tamper evidence) |
 | `engagement jsonb` | upvotes, likes, reply count, view count at fetch time |
 | `language text` | |
-| `capture_method enum` | api, manual_paste, manual_url, export_file, webhook, browser_assisted |
+| `capture_method enum` | api, manual_paste, manual_url, export_file, webhook |
 | `captured_by text` | for manual items: brit / berat / guide / claude-assisted |
 | `deleted_at_source bool`, `purge_after date` | compliance |
 | `relevance jsonb` | output of the relevance filter: `{is_relevant, us_likelihood, us_cues[], confidence}` |
@@ -176,6 +182,8 @@ from `config/brand_voice.md`, `config/banned_phrases.yaml`).
 | column | notes |
 |---|---|
 | `platform`, `external_id`, `permalink`, `published_at` | |
+| `owner_account_id` | account that owns the media |
+| `collaborator_account_ids uuid[]` | Collab co-authors (e.g. Brit & Berat on Brit in Istanbul posts); the asset is stored **once** |
 | `format`, `duration_s` | |
 | `topic_node_id`, `subtopic_node_ids` | |
 | `hook_text`, `hook_type enum` | e.g. american_pov, local_secret, mistake_warning, myth_bust, question, story, list |
@@ -204,8 +212,10 @@ shares/reach, follows per 1k reach, completion proxy = avg_watch_time / duration
 **attribution_events** — `event_type (keyword_trigger, flow_step, resource_delivered, email_captured,
 question_answered, link_click, inquiry, booking)`, `audience_profile_id`, `asset_id` (via keyword→asset map),
 `manychat_keyword`, `payload jsonb`, `occurred_at`, `source (manychat_webhook, ga4, booking_system, manual)`.
-**bookings** — `external_ref`, `offer_key`, `amount`, `currency`, `booked_at`, `audience_profile_id`
-(nullable), `attribution_source text`, `attribution_confidence`.
+**bookings** — from Stripe webhooks: `stripe_checkout_session_id`, `stripe_customer_ref` (hashed),
+`offer_key`, `amount`, `currency`, `booked_at`, `utm jsonb`, `manychat_subscriber_id` (from Checkout
+metadata when present), `heard_about_us` (Checkout custom field), `audience_profile_id` (nullable),
+`attribution_source text`, `attribution_confidence`.
 **resources** — `title`, `format`, `delivery (manychat/email/web)`, `url`, `opportunity_id`, `version`, `status`.
 **campaigns**, **campaign_assets** — campaign spine and each asset's `role` and `objective`.
 

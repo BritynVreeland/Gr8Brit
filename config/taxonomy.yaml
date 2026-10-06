@@ -1,0 +1,29 @@
+# Topic taxonomy v1. New clusters may *propose* nodes; a human approves additions.
+nodes:
+  - {key: arrival, label: Arrival & airports (IST/SAW)}
+  - {key: transport, label: Getting around (taxis, apps, metro, ferries, Istanbulkart)}
+  - {key: where_to_stay, label: Neighborhoods & where to stay}
+  - {key: safety_scams, label: Safety & scams}
+  - {key: money, label: Money, lira, cards, tipping & prices}
+  - {key: food, label: Food & drink}
+  - {key: old_city, label: Old City sights (Hagia Sophia, Blue Mosque, Topkapı, Cistern)}
+  - {key: asian_side, label: Asian Side}
+  - {key: bazaars_shopping, label: Bazaars & shopping (Grand Bazaar, Spice Bazaar, haggling)}
+  - {key: culture_etiquette, label: Culture & etiquette}
+  - {key: mosques_dress, label: Mosque visits & dress code}
+  - {key: religion_holidays, label: Religion, Ramadan & holidays}
+  - {key: itinerary, label: Itinerary length & planning}
+  - {key: day_trips, label: Day trips & beyond Istanbul (Cappadocia etc.)}
+  - {key: season_weather, label: Seasonality & weather}
+  - {key: visa_entry, label: Visa, entry & documents}
+  - {key: connectivity, label: SIM, eSIM & connectivity}
+  - {key: family, label: Traveling with kids/family}
+  - {key: solo_female, label: Solo & female travel}
+  - {key: accessibility, label: Accessibility & mobility}
+  - {key: nightlife, label: Nightlife & rooftops}
+  - {key: hammam, label: Hammam & wellness}
+  - {key: bosphorus, label: Bosphorus & boats}
+  - {key: budget, label: Budget & costs}
+  - {key: cruise_layover, label: Cruise port days & layovers}
+  - {key: guides_tours, label: Guides, tours & booking help}
+  - {key: local_life, label: Local life & Turkish perspective}

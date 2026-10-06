@@ -24,6 +24,16 @@ Core loop: **LISTEN → UNDERSTAND → IDENTIFY OPPORTUNITIES → STRATEGIZE →
 - **Unfair advantage**: we understand *both* the American traveler's perspective and the
   Turkish/local perspective. Content that any Istanbul creator could post is not our content.
 - **Main acquisition channel**: Instagram (Reels, carousels, stories) + ManyChat DM funnels.
+- **Two Instagram accounts** (canonical config: `config/accounts.yaml`):
+  | Account | Role | Feed cadence | Primary job |
+  |---|---|---|---|
+  | **Brit in Istanbul** | Brit's personal brand | 5–7 posts/week (min 3) + daily stories | Educate, build trust, capture leads (ManyChat → ActiveCampaign) |
+  | **Brit & Berat** | The travel company | 3 *unique* posts/week + daily stories; also receives every Brit in Istanbul post as an Instagram **Collab** | Sell: offers, proof, guest stories, how booking works |
+  Brit in Istanbul posts are published by Brit's account with Brit & Berat as collaborator (one media
+  object, owned by Brit in Istanbul, shown on both feeds — store once, never double-count).
+  Mix of Reels and carousels on both.
+- **Revenue stack**: bookings via **Stripe** Checkout on the website (built with **Lovable**);
+  email marketing in **ActiveCampaign**.
 
 ## Planning docs (source of truth — keep them updated when decisions change)
 
@@ -115,5 +125,12 @@ until the American-and-local dual perspective is load-bearing.
 
 ## Current status
 
-Phase: **Planning** (architecture docs written; awaiting Brit's approval of architecture + MVP).
-No production code yet.
+Phase: **0 → 1** (architecture + MVP approved 2026-10-06). Built: schema (`db/migrations/001_core.sql`),
+config seeds, Evidence Inbox, verbatim-quote verifier, Instagram collector for both accounts, LLM
+wrapper, CI + twice-daily IG sync workflow. Waiting on credentials (docs/SETUP.md).
+Next: YouTube + IG category collectors, relevance/extraction stage, clustering, opportunities, report.
+
+Decisions log:
+- 2026-10-06: Reddit, Facebook, and browser automation on Instagram are out of scope.
+- 2026-10-06: Instagram via API (Facebook Login). Two accounts (see Business context).
+- 2026-10-06: Bookings = Stripe Checkout on Lovable site; email = ActiveCampaign.

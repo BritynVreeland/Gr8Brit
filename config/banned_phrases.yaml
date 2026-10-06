@@ -1,0 +1,25 @@
+# The Critic's deterministic linter. Case-insensitive substring/regex matches.
+# A phrase may be allowed when it is verbatim audience wording used as a quote.
+banned:
+  - hidden gem
+  - hidden gems
+  - where east meets west
+  - east meets west
+  - bucket list
+  - you won't believe
+  - ultimate guide
+  - must-see
+  - must see
+  - vibrant
+  - tapestry
+  - nestled
+  - feast for the senses
+  - off the beaten path
+  - a city like no other
+  - magical city
+  - unforgettable experience
+  - wanderlust
+  - travel like a local
+  - best kept secret
+  - "\\bdelve\\b"
+  - things you need to know before

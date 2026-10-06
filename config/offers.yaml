@@ -1,0 +1,20 @@
+# Canonical offer catalog. TODO(Brit): descriptions, price ranges, booking URLs.
+offers:
+  - key: old_city_tour
+    name: Old City Tour
+    description: Guided tour of Istanbul's historic peninsula (Sultanahmet and surroundings).
+  - key: asian_side_tour
+    name: Asian Side Tour
+    description: Guided experience of Istanbul's Asian side (e.g. Kadıköy, Moda, Üsküdar).
+  - key: airport_transfer
+    name: Airport Transfer
+    description: Private transfer between IST/SAW airports and your hotel.
+  - key: bazaar_experience
+    name: Grand Bazaar & Shopping Experience
+    description: Guided shopping in the Grand Bazaar and markets, with local know-how.
+  - key: private_experience
+    name: Private Experience
+    description: Custom private experiences in Istanbul.
+  - key: planning_service
+    name: Personalized Istanbul Planning & Resources
+    description: Personalized trip planning help and practical resources for Istanbul.

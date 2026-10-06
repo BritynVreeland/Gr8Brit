@@ -1,0 +1,24 @@
+# Our publishing accounts. Handles/IDs are filled in during setup (see docs/SETUP.md).
+accounts:
+  - key: brit_in_istanbul
+    name: Brit in Istanbul
+    handle: null            # TODO(Brit): Instagram handle
+    role: personal_brand
+    primary_objectives: [education, trust, lead, storytelling, reach]
+    weekly_feed_target: 6   # 5–7 ideal
+    weekly_feed_min: 3
+    stories_per_week: 7
+    notes: >
+      Brit's personal brand. Every feed post is published as an Instagram Collab with
+      brit_and_berat, so it also appears on the company feed. Educates, builds trust, captures leads.
+  - key: brit_and_berat
+    name: Brit & Berat
+    handle: null            # TODO(Brit): Instagram handle
+    role: company
+    primary_objectives: [conversion, proof, offer_education]
+    weekly_feed_target: 3   # unique posts (in addition to Collabs from brit_in_istanbul)
+    weekly_feed_min: 3
+    stories_per_week: 7
+    notes: >
+      The travel company. Unique posts focus on selling: offers, proof (guest stories, reviews,
+      behind the scenes), and how our tours/booking work.
